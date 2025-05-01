@@ -1,21 +1,20 @@
-# Use the official Node.js 20 image as the base
+# Use a base image
 FROM node:20
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package files and install dependencies
-COPY package*.json ./
+# Clone the repo
+RUN git clone https://github.com/kylevidrine/kyles-jarvis.git
+
+# Set the working directory inside the cloned repo
+WORKDIR /usr/src/app/kyles-jarvis
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
+# Expose port if needed (e.g., 3000 for Vite)
+EXPOSE 3000
 
-# Build the application
-RUN npm run build
-
-# Expose the port the app runs on
-EXPOSE 5173
-
-# Define the command to run the app
+# Start the app
 CMD ["npm", "run", "dev"]
